@@ -76,7 +76,7 @@ Player.prototype.handleInput = function (e) {
     if (e === 'up' && this.y - cell.h > 0) {
         this.y = this.y - cell.h;
     } else if (e === 'up' && this.y - cell.h <= 0) {
-        console.log('win');
+        window.open('http://www.hamsterdance.org/hamsterdance/', '_blank');
         this.y = this.start;
     } else if (e === 'down' && this.y + cell.h < canvas.height - (cell.h * 2)) {
         this.y = this.y + cell.h;
