@@ -32,7 +32,7 @@ Enemy.prototype.update = function(dt) {
     if (this.x > canvas.clientWidth) {
         this.x = -100;
     } else {
-        this.x = this.x + (dt * this.speed);
+        this.x = Math.round(this.x + (dt * this.speed));
     }
 };
 
@@ -55,11 +55,13 @@ var Player = function (img) {
     this.y = this.start;
 };
 
-Player.prototype.update = function (x, y) {
+Player.prototype.update = function () {
+    var pl = this;
+
     allEnemies.forEach(function(enemy) {
 
-        if (this.player.x > enemy.x) {
-            // console.log(this.player);
+        if (Math.round(pl.x / 10) * 10 === Math.round(enemy.x / 10) * 10 && pl.y === enemy.y) {
+            pl.y = pl.start;
         }
     });
 
@@ -94,7 +96,7 @@ var sam = new Enemy(200, 2, 1);
 var elliot = new Enemy(100, -100, 2);
 var iam = new Enemy(150, 2, 3);
 
-// An array of bugs.  Probably the most terrifying thing to a developer.
+// An array of bugs.  Probably the most terrifying thing to a developer.  Har Har
 var allEnemies = [sam, elliot, iam];
 
 // This listens for key presses and sends the keys to your
