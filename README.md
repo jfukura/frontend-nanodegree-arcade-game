@@ -1,15 +1,16 @@
 frontend-nanodegree-arcade-game
 ===============================
 
-# How To Play
+This is the arcade game clone project for Udacity adjusted by Jason Fukura. It is
+a simple game in the style of "Frogger."
 
-Open the HTML page in a browser and you're ready to go.
+## Installation
 
-Simply use the arrow keys to move your character across the board. Watch out for
-the bugs, they don't stop for anyone.
+Clone the GitHub repo or download as a zip file from `https://github.com/jfukura/frontend-nanodegree-arcade-game`.
+Then open the index.html file in a modern web browser to get going.
 
-## Be Careful!!
+## Playing
 
-Iam, Sam and Elliot are out to get you. If they hit you, you will start over.
-
-Enjoy a dance when you finish the game.
+Use the arrow keys to move your player across the canvas, but avoid the bugs.
+If you and a bug collide, you will start over.  Make it all the way to the water
+and you win.

@@ -2,8 +2,6 @@
 var canvas = document.getElementsByTagName('canvas')[0];
 var cell = {'h' : 83, 'w': 101};
 
-console.log(canvas.width, canvas.height);
-
 /**
  * The Enemy is out there
  *
@@ -41,10 +39,32 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/**
+ * Check for a collision between our enemies and player
+ */
+Enemy.prototype.checkCollisions = function () {
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+    allEnemies.forEach(function(enemy) {
+
+        // Detect a collision with our bounding boxes
+        if (enemy.x < player.x + cell.w &&
+            enemy.x + cell.w > player.x &&
+            enemy.y < player.y + cell.h &&
+            cell.h + enemy.y > player.y) {
+
+                // Collision detected, send the player back to sart
+                player.y = player.start;
+        }
+    });
+};
+
+/**
+ * Our Player constructor
+ *
+ * @param {String} img - The image character selected.  In the end, the user
+ *                       could be able to select the character and then we could
+ *                       pass that variable to this function.
+ */
 var Player = function (img) {
     // Player class
     // Player needs to be able to select a character
@@ -55,34 +75,49 @@ var Player = function (img) {
     this.y = this.start;
 };
 
-Player.prototype.update = function () {
-    var pl = this;
-
-    allEnemies.forEach(function(enemy) {
-
-        if (Math.round(pl.x / 10) * 10 === Math.round(enemy.x / 10) * 10 && pl.y === enemy.y) {
-            pl.y = pl.start;
-        }
-    });
-
-};
-
+/**
+ * Render the plaer sprite at the selected x and y coordinates
+ */
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/**
+ * When the user presses a key, parse what the action is and do something with
+ * that information
+ *
+ * @param  {String} e - Direction of movement
+ */
 Player.prototype.handleInput = function (e) {
 
     if (e === 'up' && this.y - cell.h > 0) {
+        // If the key press is up and the player is still within the canvas
+
+        // move the user up the canvas
         this.y = this.y - cell.h;
     } else if (e === 'up' && this.y - cell.h <= 0) {
+        // If the key press is up and the player is at the end of the canvas
+        // they won!  Way to go player!
+
+        // Send them to have a dance
         window.open('http://www.hamsterdance.org/hamsterdance/', '_blank');
+
+        // Also move the player back to the start so they can play again
         this.y = this.start;
     } else if (e === 'down' && this.y + cell.h < canvas.height - (cell.h * 2)) {
+        // If the key press is down and the player is still within the canvas
+
+        // Move the player down
         this.y = this.y + cell.h;
     } else if (e === 'left' && this.x > 0) {
+        // If the key press is left and the player is still within the canvas
+
+        // Move the player left
         this.x = this.x - cell.w;
     } else if (e === 'right' && this.x < canvas.width - cell.w) {
+        // If the key press is right and player is still within the canvas
+
+        // Move the player right
         this.x = this.x + cell.w;
     }
 
@@ -109,5 +144,6 @@ document.addEventListener('keydown', function(e) {
         40: 'down'
     };
 
+    // Handle the input, but only send the key code of the allowed keys
     player.handleInput(allowedKeys[e.keyCode]);
 });
